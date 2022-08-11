@@ -1,7 +1,8 @@
 # Azisai_Othello_GUI
 USI-Xエンジン(オセロ)をOnline Othello Protocolでオンライン対局できるようにするためのツール
+
 # 概要
-- USI-XエンジンがOnline Othello Protocolで対局できるようになるためのツール
+- USI-XエンジンがOnline Othello Protocolで対局できるようになるためのツール(未完成)
 - USI-Xプロトコルに対応していれば、Online Othello Protocolを使ったオンライン対局もできるようになる
 
 - USI-Xプロトコル(オセロ版)についてはこちらを参照のこと: https://github.com/YuaHyodo/USI-X-protocol_othello_version
