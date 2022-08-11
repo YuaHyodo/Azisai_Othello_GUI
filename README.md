@@ -8,6 +8,8 @@ USI-Xエンジン(オセロ)をOnline Othello Protocolでオンライン対局�
 - USI-Xプロトコル(オセロ版)についてはこちらを参照のこと: https://github.com/YuaHyodo/USI-X-protocol_othello_version
 - Online Othello Protocolについてはこちらを参照のこと: https://github.com/YuaHyodo/online_othello_protocol
 - Online Othello Protocolの超簡易的な対局サーバー: https://github.com/YuaHyodo/Ari-Othello-Server
+- USI-Xエンジンが複数置いてあるリポジトリ: https://github.com/YuaHyodo/python-dlothello
+
 
 # 搭載済みの機能
 - USI-Xエンジンを呼び出し、既定の接続先に接続し、対局を行う機能
