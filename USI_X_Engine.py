@@ -74,27 +74,4 @@ class USI_X_Engine():
         return
 
 if __name__ == '__main__':
-    print('てすと')
-    import creversi as reversi
-    test = reversi.Board()
-    e = USI_X_Engine()
-    e.Engine_path = 'MCTS.bat'
-    e.options = ['setoption name USI_Ponder value false',
-                 'setoption name temperature value 1000']
-    e.NewGame()
-    moves = []
-    while True:
-        print(test)
-        print(test.turn)
-        print(test.piece_sum())
-        if test.is_game_over() or (len(moves) >= 2 and moves[-1] == moves[-2]):
-            break
-        move = e.go('startpos', moves, 5)
-        if move in ['resign']:
-            break
-        test.move_from_str(move)
-        moves.append(move)
-    e.Kill()
-    print(test)
-    print(test.turn)
-    print(test.piece_sum())
+    pass
