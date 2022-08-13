@@ -1,9 +1,8 @@
-from Board_to_sfen import board_to_sfen
 from USI_X_Engine import USI_X_Engine
 from GUI_v1 import Simple_GUI as GUI
+from snail_reversi.Board import Board
 from threading import Thread
 from cliant import Cliant
-import creversi as reversi
 import time
 import json
 
@@ -97,7 +96,7 @@ class main(GUI):
 
     def play_game(self):
         #いろいろ初期化
-        board = reversi.Board()
+        board = Board()
         self.engine.NewGame()
         self.playing = True
         #engine_message_thread = Thread(target=self.update_engine_message)
@@ -110,7 +109,7 @@ class main(GUI):
         
         #承諾し、Boardを表示する
         self.cliant.agree()
-        self.update_board(board_to_sfen(board, 1))
+        self.update_board(board.return_sfen())
 
         #自分の手番を取得
         color = summary['color']
@@ -134,7 +133,7 @@ class main(GUI):
             #必要な情報を取り出す
             move = move[9] + move[10]
             #boardに反映
-            board.move_from_str(move)
+            board.move_from_usix(move)
             #手を送信 & 消費時間を取得
             m, t = self.cliant.send_move(move, color)
             #持ち時間の管理
@@ -155,7 +154,7 @@ class main(GUI):
         #メインループ・対局が終わるまで
         while True:
             #windowを更新
-            self.update_board(board_to_sfen(board, 1))
+            self.update_board(board.return_sfen())
             
             #相手の番
             #相手の手を取得
@@ -165,12 +164,12 @@ class main(GUI):
                 #終局したらループから抜ける
                 break
             #相手の手を反映
-            board.move_from_str(move)
+            board.move_from_usix(move)
             self.to_engine_message +=  (' ' + move)
             #相手の番終わり
 
             # windowを更新
-            self.update_board(board_to_sfen(board, 1))
+            self.update_board(board.return_sfen())
 
             #自分の番
             #positionコマンドを送信
@@ -186,15 +185,20 @@ class main(GUI):
             self.message_area.configure(text=self.engine.engine_message_list[-1])
             #特殊な手の処理を行う
             if 'resign' in move:
-                pass
-            if 'pass' in move:
-                pass
-            #必要な情報のみ取得
-            move = move[9] + move[10]
-            #boardに反映
-            board.move_from_str(move)
-            #手を送信
-            m, t = self.cliant.send_move(move, color)
+                self.cliant.resign()
+                break
+            elif 'pass' in move:
+                #boardに反映
+                board.move_from_usix('pass')
+                #手を送信
+                m, t = self.cliant.send_move('pass', color)
+            else:
+                #必要な情報のみ取得
+                move = move[9] + move[10]
+                #boardに反映
+                board.move_from_usix(move)
+                #手を送信
+                m, t = self.cliant.send_move(move, color)
             #終局したか？
             if m == 'end':
                 #終局したらループから抜ける
@@ -212,7 +216,7 @@ class main(GUI):
         self.playing = False
         #engine_message_thread.join()
         #windowを更新
-        self.update_board(board_to_sfen(board, 1))
+        self.update_board(board.return_sfen())
         #ログアウトを試す
         try:
             self.cliant.logout()

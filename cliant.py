@@ -63,6 +63,14 @@ class Cliant:
                 break
         return
 
+    def resign(self):
+        self.send('RESIGN')
+        while True:
+            m = self.recv()
+            if '#' in m:
+                break
+        return
+
     def wait(self):
         while True:
             message = self.recv()
@@ -87,7 +95,7 @@ class Cliant:
 
     def get_move(self):
         end = ['#ILLEGAL_MOVE', '#RESIGN', '#TIME_UP', '#DOUBLE_PASS', '#ABNORMAL', '#WIN', '#DRAW', '#LOSE']
-        t = None
+        t = 0
         while True:
             m = self.recv()
             for e in end:
@@ -100,7 +108,6 @@ class Cliant:
                 m = 'pass'
                 break
             if ',T' in m:
-                print(m)
                 t = int(m[5:])
                 m = m[1:3]
                 break
