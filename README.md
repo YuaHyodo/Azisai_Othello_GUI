@@ -12,8 +12,9 @@ USI-Xエンジン(オセロ)をOnline Othello Protocolでオンライン対局�
 - USI-Xエンジンが複数置いてあるリポジトリ: https://github.com/YuaHyodo/python-dlothello
 
 # 注意
-- 実行にはsnail_reversi( https://github.com/YuaHyodo/snail_reversi )が必要です。
-- snail_reversiをインストールする方法についてはsnail_reversiのリポジトリで確認してください。
+- 実行にはsnail_reversi( https://github.com/YuaHyodo/snail_reversi )と、<br>
+USI_X_Engine_Bridge( https://github.com/YuaHyodo/USI_X_Engine_Bridge )が必要です。
+- snail_reversi・USI_X_Engine_Bridgeをインストールする方法についてはそれぞれのリポジトリで確認してください。
 
 # 搭載済みの機能
 - USI-Xエンジンを呼び出し、既定の接続先に接続し、対局を行う機能
