@@ -29,3 +29,7 @@ USI_X_Engine_Bridge( https://github.com/YuaHyodo/USI_X_Engine_Bridge )が必要�
 
 - 評価値グラフ<br>
 ![Azisai_Othello_GUI_サンプル3](https://user-images.githubusercontent.com/66828980/184169791-c356488f-95f6-44c6-b8ea-91ea87dff8d6.png)
+
+# ライセンス
+- Azisai_Othello_GUIは、MITライセンスです。
+- 詳細はLICENSEファイルをご確認ください。
