@@ -32,7 +32,6 @@ class main(GUI):
 
     def graph_test(self):
         #グラフ機能のテスト
-        import numpy.random as R
         scores = list(range(-30, 60))
         #scores = R.randint(-60, 60, 30)
         self.plot_graph(scores)
