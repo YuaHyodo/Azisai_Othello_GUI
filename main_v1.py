@@ -1,4 +1,4 @@
-from USI_X_Engine import USI_X_Engine
+from USI_X_Engine_Bridge import USI_X_Engine_Bridge as USI_X_Engine
 from GUI_v1 import Simple_GUI as GUI
 from snail_reversi.Board import Board
 from threading import Thread
@@ -11,10 +11,10 @@ class main(GUI):
         super().__init__()
         #設定を保存するファイル
         self.setting_file = 'setting.json'
-        #エンジンの型を用意
-        self.engine = USI_X_Engine()
         #設定を読み込む
         self.reset()
+        #エンジンの型を用意
+        self.engine = USI_X_Engine(self.Engine_path)
 
     def reset(self):
         #ファイルを開く
@@ -25,9 +25,9 @@ class main(GUI):
         #[アカウント名, パスワード]
         self.player_info = self.setting['player_info']
         #USI-Xエンジン
-        self.engine.Engine_path = self.setting['engine']
+        self.Engine_path = self.setting['engine']
         #エンジンの名前を表示するところを更新
-        self.name_area.configure(text=self.engine.Engine_path)
+        self.name_area.configure(text=self.Engine_path)
         return
 
     def graph_test(self):
@@ -114,7 +114,7 @@ class main(GUI):
         #自分の手番を取得
         color = summary['color']
         #エンジンに送り付けるpositionコマンドの準備
-        self.to_engine_message = 'position ' + summary['position']
+        self.to_engine_message = summary['position']
         #自分の残り持ち時間を取得
         self.my_time = summary['time']['total']
         #黒番なら行動
@@ -122,16 +122,10 @@ class main(GUI):
             #更新
             self.color_area.configure(text='color: Black')
             self.window.update()
-            #positionコマンドをエンジンに送信
-            self.engine.command(self.to_engine_message)
-            #goコマンドを用意 & エンジンに送信
-            go_message = 'go btime ' + str(self.my_time * 1000) + ' wtime 60000'
-            self.engine.command(go_message)
-            #bestmoveの取得・エンジンからのメッセージを表示
-            move = self.engine.read('bestmove')
+            #コマンドを用意 & エンジンに送信
+            move = self.engine.think(self.to_engine_message, btime=self.my_time * 1000, wtime=60000,
+                                     binc=summary['time']['inc'] * 1000, winc=summary['time']['inc'] * 1000, byoyomi=0)
             self.message_area.configure(text=self.engine.engine_message_list[-1])
-            #必要な情報を取り出す
-            move = move[9] + move[10]
             #boardに反映
             board.move_from_usix(move)
             #手を送信 & 消費時間を取得
@@ -172,16 +166,16 @@ class main(GUI):
             self.update_board(board.return_sfen())
 
             #自分の番
-            #positionコマンドを送信
-            self.engine.command(self.to_engine_message)
             #goコマンドを準備 & 送信
             if color == 'black':
-                go_message = 'go btime ' + str(self.my_time) + ' wtime 60000'
+                btime = self.my_time * 1000
+                wtime = 60000
             else:
-                go_message = 'go btime 60000 wtime ' + str(self.my_time)
-            self.engine.command(go_message)
-            #bestmoveを取得 & windowに反映
-            move = self.engine.read('bestmove')
+                btime = 60000
+                wtime = self.my_time * 1000
+            move = self.engine.think(self.to_engine_message, btime=btime, wtime=wtime,
+                                               binc=summary['time']['inc'] * 1000, winc=summary['time']['inc'] * 1000, byoyomi=0)
+            #windowに反映
             self.message_area.configure(text=self.engine.engine_message_list[-1])
             #特殊な手の処理を行う
             if 'resign' in move:
@@ -193,8 +187,6 @@ class main(GUI):
                 #手を送信
                 m, t = self.cliant.send_move('pass', color)
             else:
-                #必要な情報のみ取得
-                move = move[9] + move[10]
                 #boardに反映
                 board.move_from_usix(move)
                 #手を送信
@@ -227,4 +219,4 @@ class main(GUI):
 
 if __name__ == '__main__':
     simple_othello_gui = main()
-    input()
+    simple_othello_gui.window.mainloop()
