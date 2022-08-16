@@ -78,7 +78,7 @@ class Simple_GUI:
         上にあるやつ
         """
         #それぞれのButtonのサイズを決める
-        W = int(500 / 4)
+        W = int(500 / 5)
         H = 30
 
         #接続・対局をするButton
@@ -88,6 +88,13 @@ class Simple_GUI:
                                         fg=self.area_A_button_color[1],
                                         command=self.online_play)#,
                                         #width=W, height=H)
+
+        #オフライン対局を行うButton
+        self.offline_button = Button(self.area_A,
+                                        text='offline_game',
+                                        bg=self.area_A_button_color[0],
+                                        fg=self.area_A_button_color[1],
+                                        command=self.make_offline_game_setting_window)
 
         #ストップするButton
         self.stop_button = Button(self.area_A,
@@ -112,9 +119,10 @@ class Simple_GUI:
         
         #配置する
         self.online_button.place(x=0, y=0, width=W, height=H)
-        self.stop_button.place(x=W, y=0, width=W, height=H)
-        self.setting_button.place(x=W * 2, y=0, width=W, height=H)
-        self.state_info.place(x=W * 3, y=0, width=W, height=H)
+        self.offline_button.place(x=W, y=0, width=W, height=H)
+        self.stop_button.place(x=W * 2, y=0, width=W, height=H)
+        self.setting_button.place(x=W * 3, y=0, width=W, height=H)
+        self.state_info.place(x=W * 4, y=0, width=W, height=H)
         return
 
     def init_Board_area(self):
@@ -214,6 +222,10 @@ class Simple_GUI:
         #online_buttonが押されたときに動く関数
         pass
 
+    def offline_play(self):
+        #offline_buttonが押されたときに動く関数
+        pass
+
     def stop(self):
         #stop_buttonが押されたときに動く関数
         pass
@@ -229,6 +241,20 @@ class Simple_GUI:
     def save_setting(self):
         #setting_windowのsave_buttonが押されたときに動く関数
         pass
+
+    def start_current_setting(self):
+        self.offline_game_engine = {'black': ''.join(self.black_engine.get('1.0', 'end').splitlines()),
+                                                      'white': ''.join(self.white_engine.get('1.0', 'end').splitlines())}
+        self.offline_game_setting_dict = {}
+        self.offline_game_setting_dict['btime'] = int(''.join(self.black_total_time.get('1.0', 'end').splitlines())) * 1000
+        self.offline_game_setting_dict['wtime'] = int(''.join(self.white_total_time.get('1.0', 'end').splitlines())) * 1000
+        self.offline_game_setting_dict['binc'] = int(''.join(self.black_inc_time.get('1.0', 'end').splitlines())) * 1000
+        self.offline_game_setting_dict['winc'] = int(''.join(self.white_inc_time.get('1.0', 'end').splitlines())) * 1000
+        self.offline_game_setting_dict['bbyoyomi'] = int(''.join(self.black_byoyomi_time.get('1.0', 'end').splitlines())) * 1000
+        self.offline_game_setting_dict['wbyoyomi'] = int(''.join(self.white_byoyomi_time.get('1.0', 'end').splitlines())) * 1000
+        self.game_setting.destroy()
+        self.offline_play()
+        return
 
     def update_board(self, sfen):
         """
@@ -295,6 +321,117 @@ class Simple_GUI:
 
         self.reset_setting_button.place(x=10, y=270, width=100, height=20)
         self.save_button.place(x=190, y=270, width=100, height=20)
+        return
+
+    def make_offline_game_setting_window(self):
+        #windowを作り、タイトル・サイズを設定する
+        self.game_setting = Tk()
+        self.game_setting.title('Azisai_Othello_GUI_Offline_game')
+        self.game_setting.geometry('300x300')
+        def_setting = ['300', '3', '0']
+
+        #黒エンジン
+        self.text01 = Label(self.game_setting, text='black_engine')
+        self.black_engine = Text(self.game_setting)
+        #白エンジン
+        self.text02 = Label(self.game_setting, text='white_engine')
+        self.white_engine = Text(self.game_setting)
+
+        #黒持ち時間
+        self.text1 = Label(self.game_setting, text='black_total')
+        self.black_total_time = Text(self.game_setting)
+        self.black_total_time.insert(1.0, def_setting[0])
+
+        #白持ち時間
+        self.text2 = Label(self.game_setting, text='white_total')
+        self.white_total_time = Text(self.game_setting)
+        self.white_total_time.insert(1.0, def_setting[0])
+
+        #黒加算時間
+        self.text3 = Label(self.game_setting, text='black_increment')
+        self.black_inc_time = Text(self.game_setting)
+        self.black_inc_time.insert(1.0, def_setting[1])
+        
+        #白加算時間
+        self.text4 = Label(self.game_setting, text='white_increment')
+        self.white_inc_time = Text(self.game_setting)
+        self.white_inc_time.insert(1.0, def_setting[1])
+        
+        #黒秒読み
+        self.text5 = Label(self.game_setting, text='black_byoyomi')
+        self.black_byoyomi_time = Text(self.game_setting)
+        self.black_byoyomi_time.insert(1.0, def_setting[2])
+        
+        #白秒読み
+        self.text6 = Label(self.game_setting, text='white_byoyomi')
+        self.white_byoyomi_time = Text(self.game_setting)
+        self.white_byoyomi_time.insert(1.0, def_setting[2])
+
+        #スタートボタン
+        self.start_button = Button(self.game_setting, text='start',
+                                           bg='black', fg='white', relief='ridge', command=self.start_current_setting)
+
+        W = 100
+        H = 20
+        D = 20
+        x = [10, 190]
+        y = [10 + H,
+               10 + (2 * H) + D,
+               10 + (3 * H) + D,
+               10 + (4 * H) + (2 * D),
+               10 + (5 * H) + (2 * D),
+               10 + (6 * H) + (3 * D),
+               10 + (7 * H) + (3 * D)]
+
+        self.text01.place(x=x[0], y=10, width=W, height=H)
+        self.text02.place(x=x[1], y=10, width=W, height=H)
+        self.black_engine.place(x=x[0], y=y[0], width=W, height=H)
+        self.white_engine.place(x=x[1], y=y[0], width=W, height=H)
+        
+        self.text1.place(x=x[0], y=y[1], width=W, height=H)
+        self.black_total_time.place(x=x[0], y=y[2], width=W, height=H)
+
+        self.text2.place(x=x[1], y=y[1], width=W, height=H)
+        self.white_total_time.place(x=x[1], y=y[2], width=W, height=H)
+
+        self.text3.place(x=x[0], y=y[3], width=W, height=H)
+        self.black_inc_time.place(x=x[0], y=y[4], width=W, height=H)
+
+        self.text4.place(x=x[1], y=y[3], width=W, height=H)
+        self.white_inc_time.place(x=x[1], y=y[4], width=W, height=H)
+
+        self.text5.place(x=x[0], y=y[5], width=W, height=H)
+        self.black_byoyomi_time.place(x=x[0], y=y[6], width=W, height=H)
+
+        self.text6.place(x=x[1], y=y[5], width=W, height=H)
+        self.white_byoyomi_time.place(x=x[1], y=y[6], width=W, height=H)
+
+        self.start_button.place(x=150 - W // 2 , y=270, width=W, height=H)
+
+        self.game_setting.update()
+        self.game_setting.mainloop()
+        return
+
+    def show_result(self, winner):
+        #windowを作り、タイトル・サイズを設定する
+        self.result = Tk()
+        self.result.title('Azisai_Othello_GUI: game_result')
+        self.result.geometry('250x100')
+
+        players = [None, None]
+        players[0] = Label(self.result, text='Black: ' + self.offline_game_engine['black'],
+                   bg='black', fg='white', relief='ridge')
+        players[1] = Label(self.result, text='White: ' + self.offline_game_engine['white'],
+                   bg='white', fg='black', relief='ridge')
+
+        winner = Label(self.result, text='Winner: ' + winner,
+                            bg='darkblue', fg='gold', relief='ridge')
+
+        players[0].place(x=0, y=0, width=125, height=50)
+        players[1].place(x=125, y=0, width=125, height=50)
+        winner.place(x=0, y=50, width=250, height=50)
+        self.result.update()
+        self.result.mainloop()
         return
 
 if __name__ == '__main__':

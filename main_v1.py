@@ -27,6 +27,7 @@ SOFTWARE.
 """
 
 from USI_X_Engine_Bridge import USI_X_Engine_Bridge as USI_X_Engine
+from snail_reversi.Board import BLACK, WHITE, DRAW
 from GUI_v1 import Simple_GUI as GUI
 from snail_reversi.Board import Board
 from threading import Thread
@@ -101,6 +102,68 @@ class main(GUI):
             time.sleep(10)
         #状態を更新
         self.state_info.configure(text='state: OFFLINE')
+        return
+
+    def offline_play(self):
+        #self.make_offline_game_setting_window()
+        board = Board()
+        moves= []
+        position_message = 'startpos moves'
+        self.engine1 = USI_X_Engine(self.offline_game_engine['black'])
+        self.engine2 = USI_X_Engine(self.offline_game_engine['white'])
+        self.engine1.NewGame()
+        self.engine2.NewGame()
+        
+        while True:
+            
+            if board.is_gameover() or (len(moves) > 1 and moves[-2] == moves[-1]):
+                winner = board.return_winner()
+                break
+            
+            self.update_board(board.return_sfen())
+            self.color_area.configure(text='color: Black')
+            self.time_area.configure(text='time: ' + str(self.offline_game_setting_dict['btime'] / 1000))
+            time1 = time.time()
+            move = self.engine1.think(position_message,
+                               btime=self.offline_game_setting_dict['btime'],
+                               wtime=self.offline_game_setting_dict['wtime'],
+                               binc=self.offline_game_setting_dict['binc'], winc=self.offline_game_setting_dict['winc'],
+                               byoyomi=self.offline_game_setting_dict['bbyoyomi'])
+            self.message_area.configure(text=self.engine1.engine_message_list[-1])
+            if 'resign' in move:
+                winner = Board.WHITE
+                break
+            board.move_from_usix(move)
+            moves += [move]
+            position_message += (' ' + move)
+            self.offline_game_setting_dict['btime'] -= int((time.time() - time1) * 1000)
+            self.offline_game_setting_dict['btime'] += self.offline_game_setting_dict['binc']
+
+            if board.is_gameover() or (len(moves) > 1 and moves[-2] == moves[-1]):
+                winner = board.return_winner()
+                break
+            
+            self.update_board(board.return_sfen())
+            self.color_area.configure(text='color: White')
+            self.time_area.configure(text='time: ' + str(self.offline_game_setting_dict['wtime'] / 1000))
+            time1 = time.time()
+            move = self.engine2.think(position_message,
+                               btime=self.offline_game_setting_dict['btime'],
+                               wtime=self.offline_game_setting_dict['wtime'],
+                               binc=self.offline_game_setting_dict['binc'], winc=self.offline_game_setting_dict['winc'],
+                               byoyomi=self.offline_game_setting_dict['wbyoyomi'])
+            self.message_area.configure(text=self.engine2.engine_message_list[-1])
+            if 'resign' in move:
+                winner = Board.BLACK
+                break
+            board.move_from_usix(move)
+            moves += [move]
+            position_message += (' ' + move)
+            self.offline_game_setting_dict['wtime'] -= int((time.time() - time1) * 1000)
+            self.offline_game_setting_dict['wtime'] += self.offline_game_setting_dict['winc']
+        
+        self.update_board(board.return_sfen())
+        self.show_result({BLACK: 'Black', WHITE: 'White', DRAW: 'Draw'}[winner])
         return
 
     def stop(self):
