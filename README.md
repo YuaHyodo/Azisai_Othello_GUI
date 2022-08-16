@@ -1,12 +1,16 @@
 # Azisai_Othello_GUI
-USI-Xエンジン(オセロ)をOnline Othello Protocolでオンライン対局できるようにするためのツール
+USI-Xエンジン(オセロ)のためのGUI
 
 # 概要
-- USI-XエンジンがOnline Othello Protocolで対局できるようになるためのツール
+- これは、<br>
+1: USI-XエンジンがOnline Othello Protocolで対局できるようになるためのツール<br>
+2: USI-Xエンジン同士で対局が行えるオセロGUIツール<br>
+である。
 
-- 「USI-Xプロトコル対応のオセロAIのための簡易的なオセロGUI」でもある。
-
-- USI-Xプロトコルに対応していれば、Online Othello Protocolを使ったオンライン対局もできるようになる
+- USI-Xプロトコルに対応していれば、<br>
+1: USI-Xエンジン同士で対局<br>
+2: Online Othello Protocolを使ったオンライン対局<br>
+ができるようになる。
 
 - ファイル・クラス・関数・変数名、出力されるメッセージ、実装方法、設計思想などに関する意見は受け付けておりません。 (不満があるなら自分で作ってください)
 
@@ -27,6 +31,7 @@ USI_X_Engine_Bridge( https://github.com/YuaHyodo/USI_X_Engine_Bridge )が必要�
 
 # 搭載済みの機能
 - USI-Xエンジンを呼び出し、既定の接続先に接続し、対局を行う機能
+- USI-Xエンジンを2つ呼び出し、設定した持ち時間で対局を行う機能
 - 対局中の情報をグラフィカルに表示する機能
 - 簡易的な評価値グラフの描画
 
@@ -41,6 +46,13 @@ USI_X_Engine_Bridge( https://github.com/YuaHyodo/USI_X_Engine_Bridge )が必要�
 
 - 評価値グラフ<br>
 ![Azisai_Othello_GUI_サンプル3](https://user-images.githubusercontent.com/66828980/184169791-c356488f-95f6-44c6-b8ea-91ea87dff8d6.png)
+
+- オフライン対局時の設定画面
+![Azisai_Othello_GUI_サンプル4](https://user-images.githubusercontent.com/66828980/184886739-6ef5be7e-03a3-4014-960d-0a11add164b1.png)
+
+- オフライン対局時のリザルト画面
+![Azisai_Othello_GUI_サンプル5](https://user-images.githubusercontent.com/66828980/184886825-fb6e7cde-334d-481c-9d10-5483004b6cc6.png)
+
 
 # ライセンス
 - Azisai_Othello_GUIは、MITライセンスです。
