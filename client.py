@@ -32,7 +32,7 @@ import time
 
 k = '\n'
 
-class Cliant:
+class Client:
     def __init__(self, host, port=4081):
         self.host = host
         self.port=port

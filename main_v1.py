@@ -31,7 +31,7 @@ from snail_reversi.Board import BLACK, WHITE, DRAW
 from GUI_v1 import Simple_GUI as GUI
 from snail_reversi.Board import Board
 from threading import Thread
-from cliant import Cliant
+from client import Client
 import time
 import json
 
@@ -196,12 +196,12 @@ class main(GUI):
         #engine_message_thread.start()
 
         #接続・ログイン・対局待ちを行う
-        self.cliant = Cliant(host=self.host)
-        self.cliant.login(self.player_info[0], self.player_info[1])
-        summary = self.cliant.wait()
+        self.client = Client(host=self.host)
+        self.client.login(self.player_info[0], self.player_info[1])
+        summary = self.client.wait()
         
         #承諾し、Boardを表示する
-        self.cliant.agree()
+        self.client.agree()
         self.update_board(board.return_sfen())
 
         #自分の手番を取得
@@ -222,7 +222,7 @@ class main(GUI):
             #boardに反映
             board.move_from_usix(move)
             #手を送信 & 消費時間を取得
-            m, t = self.cliant.send_move(move, color)
+            m, t = self.client.send_move(move, color)
             #持ち時間の管理
             self.my_time -= t
             self.my_time += summary['time']['inc']
@@ -245,7 +245,7 @@ class main(GUI):
             
             #相手の番
             #相手の手を取得
-            move, t = self.cliant.get_move()
+            move, t = self.client.get_move()
             #終局したか？
             if move == 'end':
                 #終局したらループから抜ける
@@ -272,18 +272,18 @@ class main(GUI):
             self.message_area.configure(text=self.engine.engine_message_list[-1])
             #特殊な手の処理を行う
             if 'resign' in move:
-                self.cliant.resign()
+                self.client.resign()
                 break
             elif 'pass' in move:
                 #boardに反映
                 board.move_from_usix('pass')
                 #手を送信
-                m, t = self.cliant.send_move('pass', color)
+                m, t = self.client.send_move('pass', color)
             else:
                 #boardに反映
                 board.move_from_usix(move)
                 #手を送信
-                m, t = self.cliant.send_move(move, color)
+                m, t = self.client.send_move(move, color)
             #終局したか？
             if m == 'end':
                 #終局したらループから抜ける
@@ -304,7 +304,7 @@ class main(GUI):
         self.update_board(board.return_sfen())
         #ログアウトを試す
         try:
-            self.cliant.logout()
+            self.client.logout()
         except:
             pass
         return
