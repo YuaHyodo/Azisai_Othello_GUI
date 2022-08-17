@@ -42,8 +42,7 @@ class main(GUI):
         self.setting_file = 'setting.json'
         #設定を読み込む
         self.reset()
-        #エンジンの型を用意
-        self.engine = USI_X_Engine(self.Engine_path)
+        
 
     def reset(self):
         #ファイルを開く
@@ -89,6 +88,8 @@ class main(GUI):
             json.dump(self.setting, f)
         #設定ウィンドウを閉じる
         self.setting_window.destroy()
+        #エンジンの名前を表示するところを更新
+        self.name_area.configure(text=self.setting['engine'])
         return
 
     def online_play(self):
@@ -187,6 +188,8 @@ class main(GUI):
     def play_game(self):
         #いろいろ初期化
         board = Board()
+        #エンジンを読み込む
+        self.engine = USI_X_Engine(self.Engine_path)
         self.engine.NewGame()
         self.playing = True
         #engine_message_thread = Thread(target=self.update_engine_message)
@@ -310,3 +313,4 @@ class main(GUI):
 if __name__ == '__main__':
     simple_othello_gui = main()
     simple_othello_gui.window.mainloop()
+    #input()

@@ -1,0 +1,83 @@
+Azisai_Othelo_GUI説明書
+
+[目次]
+1: Azisai_Othello_GUIの概要
+2: USI-Xとは？
+3: なぜ、USI-Xを提案するのか？
+4: オフライン対局機能の使い方
+5: オンライン対局機能の使い方
+6: 関連リンク
+
+
+1: [Azisai_Othello_GUIの概要]
+
+Azisai_Othello_GUIは、USI-X Protocol Othello Version(以降、USI-X)に対応したAI(以降、USI-Xエンジン)のためのオセロGUIです。
+オフラインでの対局や、オンラインサーバーに接続して行われるオンライン対局が行えます。
+
+
+2: [USI-Xとは？]
+USI-Xは、やねうらお氏(トップクラスの将棋AI、"やねうら王"の開発者)が、
+将棋AIで普及しているUSIプロトコルをベースに提案した「対局ゲーム標準通信プロトコル」です。
+そして、USI-Xをオセロに対応させる際の詳細な仕様を定め、多少の改良を施したものが、USI-X Othello Versionとなっています。
+
+
+3: [なぜ、USI-Xを提案するのか？]
+「開発者がAIの強さを追求する事に専念するするため」です。
+オセロAI界隈には現状、「広く普及し、関連ツールが充実している優秀なプロトコル」がありません。
+
+「広く普及し、関連ツールが充実している優秀なプロトコル」が無いので、
+(1):GUIなどの「人間がAIを利用するのには欠かせないが、作るのが大変な上に、強さに全く影響が無い」ツールを有志が公開していたとしても、対応が大変
+(2):他のAIとの自動連続対局による強さの計測が難しい
+などの事が起こり、オセロAI界隈を停滞させていると私は考えています。
+
+対して、チェスAIや将棋AIではUCIプロトコル、USIプロトコルが制定されて、それが普及したため、
+「プロトコルに対応していればフリーなGUIソフトなどの充実した関連ツールが利用できる」という環境が整っています。
+
+この悪い現状から脱却するべく、我々はUSI-X Othello Versionを提案しました。
+我々は、「USI-X Protocol Othello Versionを標準化する」ことで、オセロAI界隈をより良くできると信じています。
+
+USI-Xに関する意見(肯定的でも否定的でも)・質問等は、https://github.com/YuaHyodo/USI-X-protocol_othello_version/discussions で受け付けています。
+
+
+4: [オフライン対局機能の使い方]
+上の灰色のメニューバーの、「offline_game」を押します。
+すると対局設定用のwindowが現れるので、そこで各種設定を行います。
+
+値は、
+black_engine: 黒番のエンジン
+white_engine: 白番のエンジン
+black_total, white_total: 各手番の総合持ち時間
+black_increment, white_increment: 各手番の加算時間
+black_byoyomi, white_byoyomi: 各手番の秒読み
+で、単位は「秒」です。
+
+入力が終わって、「start」を押すと対局が始まります。
+
+終局後、簡易のリザルト画面が表示されます。
+
+
+5: [オンライン対局機能の使い方]
+この機能を使うと、Online Othello Protocol対応サーバーで通信対局を行うことができます。
+
+上の灰色のメニューバーの「conect」を押します。
+すると、既定のエンジンが呼び出され、既定の接続先に既定のアカウント・パスワードでログインします。
+サーバーからゲーム開始が知らされると対局が始まります。
+対局が終わると自動でログアウトした後、自動で再ログインします。(停止はメニューバーの「stop」で行います)
+接続先・アカウント・パスワードはメニューバー「setting」から行えます。
+設定は、setting.jsonに保存されます。
+
+
+6: [関連リンク]
+USI-X Othello Versionリポジトリ: https://github.com/YuaHyodo/USI-X-protocol_othello_version
+
+Online Othello Prtorocolリポジトリ: https://github.com/YuaHyodo/online_othello_protocol
+
+Online Othello Protocolサーバー、Ari-Othello-Serverのリポジトリ: https://github.com/YuaHyodo/Ari-Othello-Server
+
+USI-Xエンジンを作る際に参考になるサンプルコード: https://github.com/YuaHyodo/USI-X_Othello_Samples
+
+USI-XエンジンをPythonプログラムで呼び出すためのツール: https://github.com/YuaHyodo/USI_X_Engine_Bridge
+
+USI-Xエンジン、python-dlothello・Azisai・random_kunのリポジトリ: https://github.com/YuaHyodo/python-dlothello
+
+USI-Xプロトコルに関するやねうらお氏のブログ記事: http://yaneuraou.yaneu.com/2022/06/07/standard-communication-protocol-for-games/
