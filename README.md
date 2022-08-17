@@ -12,6 +12,8 @@ USI-Xエンジン(オセロ)のためのGUI
 2: Online Othello Protocolを使ったオンライン対局<br>
 ができるようになる。
 
+- 詳細はmanual_ja.txtをご確認ください。
+
 - ファイル・クラス・関数・変数名、出力されるメッセージ、実装方法、設計思想などに関する意見は受け付けておりません。 (不満があるなら自分で作ってください)
 
 - USI-Xプロトコル(オセロ版)についてはこちらを参照のこと: https://github.com/YuaHyodo/USI-X-protocol_othello_version
