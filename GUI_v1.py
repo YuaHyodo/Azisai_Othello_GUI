@@ -199,11 +199,14 @@ class Simple_GUI:
         評価値のリストを渡すと、グラフを描いてくれる
         どんなスケールのグラフでも描ける
         """
+        self.init_info_area2()
         #手数を取得
         moves = len(values)
         #最小値・最大値を取得
         max_value = max(values)
         min_value = min(values)
+        if max_value == 0 and min_value == 0:
+            return
         #横幅を決める
         W = (500 / moves)
         for i in range(moves):

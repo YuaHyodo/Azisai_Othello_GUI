@@ -15,7 +15,7 @@ copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEME5NT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -112,6 +112,8 @@ class main(GUI):
         position_message = 'startpos moves'
         self.engine1 = USI_X_Engine(self.offline_game_engine['black'])
         self.engine2 = USI_X_Engine(self.offline_game_engine['white'])
+        self.engine1.info_get = True
+        self.engine2.info_get = True
         self.engine1.NewGame()
         self.engine2.NewGame()
         
@@ -131,6 +133,7 @@ class main(GUI):
                                binc=self.offline_game_setting_dict['binc'], winc=self.offline_game_setting_dict['winc'],
                                byoyomi=self.offline_game_setting_dict['bbyoyomi'])
             self.message_area.configure(text=self.engine1.engine_message_list[-1])
+            self.plot_graph(self.engine1.evaluation)
             if 'resign' in move:
                 winner = Board.WHITE
                 break
@@ -154,6 +157,7 @@ class main(GUI):
                                binc=self.offline_game_setting_dict['binc'], winc=self.offline_game_setting_dict['winc'],
                                byoyomi=self.offline_game_setting_dict['wbyoyomi'])
             self.message_area.configure(text=self.engine2.engine_message_list[-1])
+            self.plot_graph(self.engine2.evaluation)
             if 'resign' in move:
                 winner = Board.BLACK
                 break
@@ -190,6 +194,7 @@ class main(GUI):
         board = Board()
         #エンジンを読み込む
         self.engine = USI_X_Engine(self.Engine_path)
+        self.engine.info_get = True
         self.engine.NewGame()
         self.playing = True
         #engine_message_thread = Thread(target=self.update_engine_message)
@@ -219,6 +224,7 @@ class main(GUI):
             move = self.engine.think(self.to_engine_message, btime=self.my_time * 1000, wtime=60000,
                                      binc=summary['time']['inc'] * 1000, winc=summary['time']['inc'] * 1000, byoyomi=0)
             self.message_area.configure(text=self.engine.engine_message_list[-1])
+            self.plot_graph(self.engine.evaluation)
             #boardに反映
             board.move_from_usix(move)
             #手を送信 & 消費時間を取得
@@ -270,6 +276,7 @@ class main(GUI):
                                                binc=summary['time']['inc'] * 1000, winc=summary['time']['inc'] * 1000, byoyomi=0)
             #windowに反映
             self.message_area.configure(text=self.engine.engine_message_list[-1])
+            self.plot_graph(self.engine.evaluation)
             #特殊な手の処理を行う
             if 'resign' in move:
                 self.client.resign()
