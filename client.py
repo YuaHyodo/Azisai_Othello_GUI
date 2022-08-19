@@ -29,6 +29,7 @@ SOFTWARE.
 from threading import Thread
 import socket
 import time
+import ssl
 
 k = '\n'
 
@@ -40,7 +41,10 @@ class Client:
         self.keep_connect = False
 
     def connect(self):
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        context = ssl.create_default_context()
+        context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        self.socket = context.wrap_socket(self.socket0, server_hostname=self.host)
         self.socket.connect((self.host, self.port))
         self.keep_connact = True
         keep_connect_thread = Thread(target=self.keep_connect)
