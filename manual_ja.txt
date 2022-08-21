@@ -6,7 +6,8 @@ Azisai_Othelo_GUI説明書
 3: なぜ、USI-Xを提案するのか？
 4: オフライン対局機能の使い方
 5: オンライン対局機能の使い方
-6: 関連リンク
+6: Azisai_Othello_CUIについて
+7: 関連リンク
 
 
 1: [Azisai_Othello_GUIの概要]
@@ -67,7 +68,22 @@ black_byoyomi, white_byoyomi: 各手番の秒読み
 設定は、setting.jsonに保存されます。
 
 
-6: [関連リンク]
+6: [Azisai_Othello_CUIについて]
+Azisai_Othello_CUIは、Azisai_Othello_GUIからGUI機能を取り払ったものです。
+「GUIは不要」という人々のために作りました。
+
+使い方についてザックリ説明します。
+
+1:起動すると、「load_setting_file(y/n):」と聞かるので、setting.jsonを読み込みたい場合はy、値を設定したい場合はnを入力します。
+2: 設定が済むと、コマンド入力画面になります。「offline」でオフライン対局、「online」でオンライン対局、
+「setting」で設定、「quit」で終了を行うことができます。
+3: onlineでは、設定した接続先に設定したエンジンで接続行い、既定の回数のオンライン対局を行います。
+4: offlineでは、黒番・白番それぞれのエンジンと、各手番の持ち時間と対局数の設定を行った後、
+設定した値に沿ってオフライン対局が行われます。
+5: settingでは、起動時の設定画面を再度呼び出すことができます。
+
+
+7: [関連リンク]
 USI-X Othello Versionリポジトリ: https://github.com/YuaHyodo/USI-X-protocol_othello_version
 
 Online Othello Prtorocolリポジトリ: https://github.com/YuaHyodo/online_othello_protocol
