@@ -86,7 +86,9 @@ class main:
             self.my_time += summary['time']['inc']
 
             self.to_engine_message += (' ' + move)
-
+        print('')
+        print(board)
+        print('')
         while True:
             move, t = self.client.get_move()
 
@@ -95,7 +97,11 @@ class main:
 
             board.move_from_usix(move)
             self.to_engine_message +=  (' ' + move)
-
+            print('')
+            print('my_turn')
+            print(board)
+            print('sfen:', board.return_sfen())
+            print('')
             if color == 'black':
                 btime = self.my_time * 1000
                 wtime = 60000
@@ -104,7 +110,6 @@ class main:
                 wtime = self.my_time * 1000
             move = self.engine.think(self.to_engine_message, btime=btime, wtime=wtime,
                                                binc=summary['time']['inc'] * 1000, winc=summary['time']['inc'] * 1000, byoyomi=0)
-
             if 'resign' in move:
                 self.client.resign()
                 break
@@ -114,7 +119,11 @@ class main:
             else:
                 board.move_from_usix(move)
                 m, t = self.client.send_move(move, color)
-                
+            print('')
+            print('opponent_turn')
+            print(board)
+            print('sfen:', board.return_sfen())
+            print('')
             if m == 'end':
                 break
             
@@ -159,7 +168,11 @@ class main:
                 if board.is_gameover() or (len(moves) > 1 and moves[-2] == moves[-1]):
                     winner = board.return_winner()
                     break
-                
+                print('')
+                print('engine1_turn')
+                print(board)
+                print('sfen:', board.return_sfen())
+                print('')
                 time1 = time.time()
                 move = self.engine1.think(position_message,
                                btime=self.offline_game_setting_dict['btime'],
@@ -178,7 +191,11 @@ class main:
                 if board.is_gameover() or (len(moves) > 1 and moves[-2] == moves[-1]):
                     winner = board.return_winner()
                     break
-                
+                print('')
+                print('engine2_turn')
+                print(board)
+                print('sfen:', board.return_sfen())
+                print('')
                 time1 = time.time()
                 move = self.engine2.think(position_message,
                                btime=self.offline_game_setting_dict['btime'],
@@ -193,6 +210,10 @@ class main:
                 position_message += (' ' + move)
                 self.offline_game_setting_dict['wtime'] -= int((time.time() - time1) * 1000)
                 self.offline_game_setting_dict['wtime'] += self.offline_game_setting_dict['winc']
+            print('')
+            print(board)
+            print('sfen:', board.return_sfen())
+            print('')
             wins[{BLACK: 'black', WHITE: 'white', DRAW: 'draw'}[winner]] += 1
         print('')
         print('result')
