@@ -1,29 +1,25 @@
 # Azisai_Othello_GUI
-USI-Xエンジン(オセロ)のためのGUI
+USI-Xエンジン(オセロ)のためのGUIや関連ツール
 
-# 概要
-- これは、<br>
-1: USI-XエンジンがOnline Othello Protocolで対局できるようになるためのツール<br>
-2: USI-Xエンジン同士で対局が行えるオセロGUIツール<br>
-である。
+# 概要(全体)
+- USI-Xプロトコル(オセロ)とOnline Othello Protocolに関するツールのリポジトリ
 
-- USI-Xプロトコルに対応していれば、<br>
-1: USI-Xエンジン同士で対局<br>
-2: Online Othello Protocolを使ったオンライン対局<br>
-ができるようになる。
+# ファイル毎の概要
+## 古いやつ
+- main.py: Azisai_Othello_GUI(v1)のメインファイル。Online Othello Protocolを使ったオンライン対局と、USI-Xエンジン同士のオフライン対極に対応。正直使い勝手が悪い。
+- client.py: Online Othello Protocolを使ったオンライン対局のためのファイル。
+- GUI.py: Azisai_Othello_GUI(v1)のGUIに関するファイル。
+- Azisai_Othello_CUI_v1.py: Azisai_Othello_GUI(v1)のGUI無しバージョン。使い勝手が悪い。
+- setting.json: Azisai_Othello_GUI(v1)とAzisai_Othello_CUI_v1のための設定ファイル。
+## 新しいやつ
+- Azisai_Othello_CUI_v2.py: USI-Xエンジン同士で対局するためのプログラム。オンラインでの対局は不可能。
 
-- 詳細はmanual_ja.txtをご確認ください。
-
+# その他
 - ファイル・クラス・関数・変数名、出力されるメッセージ、実装方法、設計思想などに関する意見は受け付けておりません。 (不満があるなら自分で作ってください)
-
 - USI-Xプロトコル(オセロ版)についてはこちらを参照のこと: https://github.com/YuaHyodo/USI-X-protocol_othello_version
-
 - Online Othello Protocolについてはこちらを参照のこと: https://github.com/YuaHyodo/online_othello_protocol
-
 - Online Othello Protocolの簡易的な対局サーバーのリポジトリはこちら: https://github.com/YuaHyodo/Ari-Othello-Server
-
 - USI-Xエンジンが複数置いてあるリポジトリはこちら: https://github.com/YuaHyodo/python-dlothello
-
 - USI-Xプロトコルに関するサンプルプログラムの置き場はこちら: https://github.com/YuaHyodo/USI-X_Othello_Samples
 
 # 注意
